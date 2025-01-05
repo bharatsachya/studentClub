@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 import { Socket, io } from "socket.io-client";
 
 const URL = "http://localhost:3000";
@@ -12,14 +12,15 @@ const Room = ({
   localAudioTrack: MediaStreamTrack | null;
   localVideoTrack: MediaStreamTrack | null;
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
   const [lobby, setLobby] = useState(true);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [sendingPc, setSendingPc] = useState<RTCPeerConnection | null>(null);
   const [receivingPc, setReceivingPc] = useState<RTCPeerConnection | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
   const localVideoRef = useRef<HTMLVideoElement>(null);
-
+  console.log(socket);
+  
   useEffect(() => {
     const socket = io(URL);
 
@@ -49,6 +50,8 @@ const Room = ({
         }
       };
 
+
+      if (localVideoTrack) pc.addTrack(localVideoTrack);
       await pc.setRemoteDescription(new RTCSessionDescription(remoteSdp));
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -57,7 +60,7 @@ const Room = ({
     };
 
     const handleAnswer = async ({ roomId, sdp: remoteSdp }: { roomId: string; sdp: RTCSessionDescriptionInit }) => {
-      console.log("Received answer");
+      console.log("Received answer",roomId);
       setSendingPc((pc) => {
         pc?.setRemoteDescription(new RTCSessionDescription(remoteSdp));
         return pc;

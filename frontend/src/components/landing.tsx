@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Room from "./room";
 
 export const Landing = () => {
   const [name, setName] = useState<string>("");
@@ -8,7 +7,7 @@ export const Landing = () => {
   const [localVideoTrack, setLocalVideoTrack] =
     useState<MediaStreamTrack | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
+  console.log(name, localAudioTrack, localVideoTrack);
   const [joined, setJoined] = useState<boolean>(false);
 
   const getCam = async () => {
