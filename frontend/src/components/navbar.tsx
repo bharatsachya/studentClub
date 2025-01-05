@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+
 function Navbar() {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -15,12 +15,7 @@ function Navbar() {
           onClick={handleClick}
           className="hover:bg-emerald-200 p-0.5 rounded-xl"
         >
-          <img
-            src={`public/${isClicked ? "close" : "menu"}.png`}
-            alt="sidebar"
-            height={25}
-            width={30}
-          />
+         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1zm12-1a2 2 0 012 2v12a2 2 0 01-2 2H2a2 2 0 01-2-2V2a2 2 0 012-2h12z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M5 15V1H4v14h1zm8-11.5a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5z" clip-rule="evenodd"></path></svg>
         </button>
       </div>
 
@@ -40,9 +35,7 @@ function Navbar() {
         <div className="p-5">
           <ul className="space-y-4">
             <li>
-                <NavLink to='/Guide' className="text-gray-700 hover:text-emerald-500">
-                  User Guide
-                </NavLink>
+              <a href="#guide">User Guide</a>
             </li>
             <li>
               <a href="#about" className="text-gray-700 hover:text-emerald-500">
