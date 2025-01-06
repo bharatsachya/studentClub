@@ -136,7 +136,7 @@ const Login: React.FC = () => {
               to="/signup"
               className="block text-sm text-blue-600 hover:text-blue-700 hover:underline text-right"
             >
-              Not registered yet?
+              Get Your college ID verified
             </Link>
 
             <button

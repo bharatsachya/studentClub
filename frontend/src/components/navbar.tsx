@@ -44,10 +44,26 @@ function Navbar() {
             </li>
             <li>
               <a
+                href="#contact"
+                className="text-gray-700 hover:text-emerald-500"
+              >
+                Contact
+              </a>
+            </li>
+            <li>
+              <a
                 href="#services"
                 className="text-gray-700 hover:text-emerald-500"
               >
-                Services
+                club registration
+              </a>
+            </li>
+            <li>
+              <a
+                href="#services"
+                className="text-gray-700 hover:text-emerald-500"
+              >
+                Club members Login
               </a>
             </li>
             <li>
