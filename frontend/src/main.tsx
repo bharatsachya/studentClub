@@ -6,6 +6,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import {Landing} from './components/landing'
 import Login from './components/login'
 import Verify from './components/verify'
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
     </Route>
   ) 
 )
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router}/>
