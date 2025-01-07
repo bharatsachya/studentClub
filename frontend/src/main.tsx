@@ -6,6 +6,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import {Landing} from './components/landing'
 import Login from './components/login'
 import Verify from './components/verify'
+import Club from './components/club'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
        {/* <Route path='/room' element={<Room/>} /> */}
        <Route path='/' element={<Login/>}/>
        <Route path='/verify' element={<Verify/>}/>
+       <Route path='/club' element={<Club/>}/>
     </Route>
   ) 
 )

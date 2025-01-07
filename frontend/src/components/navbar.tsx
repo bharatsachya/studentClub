@@ -10,7 +10,9 @@ function Navbar() {
   return (
     <>
       {/* Navbar Section */}
-      <div className="flex items-center justify-end p-1 mx-2">
+    <div className="flex items-center justify-between p-2 bg-white shadow-md fixed ">
+      <div className="text-purple-900 font-bold md:text-2xl sm:text-md">StudentConnect</div>
+    <div className="flex items-center justify-end mx-2">
         <button
           onClick={handleClick}
           className="hover:bg-emerald-200 p-0.5 rounded-xl"
@@ -19,6 +21,7 @@ function Navbar() {
         </button>
       </div>
 
+    </div>
       {/* Sidebar Section */}
       <div
         className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 transform ${
