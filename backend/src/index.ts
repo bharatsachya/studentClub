@@ -1,30 +1,23 @@
-import { Socket } from "socket.io";
-import http from "http";
-import { Router } from "express";
-import express from 'express';
-import { Server } from 'socket.io';
-import { UserManager } from "./managers/UserManager";
+import dotenv from 'dotenv';
+import connectDB from './db/index.js'
+import {app} from './App';
 
-const app = express();
-const server = http.createServer(http);
+dotenv.config(
+    {
+        path: '../env'
+    }
+)
 
-const io = new Server(server, {
-  cors: {
-    origin: "*"
-  }
-});
+connectDB()
+.then(()=>{
+   app.get('/',(req: import('express').Request, res: import('express').Response)=>{
+       res.send("Server is running");
+   })
 
-const userManager = new UserManager();
-
-io.on('connection', (socket: Socket) => {
-  console.log('a user connected');
-  userManager.addUser("randomName", socket);
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-    userManager.removeUser(socket.id);
-  })
-});
-
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+    app.listen(process.env.PORT || 8000,()=>{
+        console.log(`Server is running on port ${process.env.PORT}`);
+    })
+})
+.catch((error)=>{
+    console.log(error);
 });
