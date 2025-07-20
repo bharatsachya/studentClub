@@ -20,9 +20,8 @@ const Login: React.FC = () => {
       </div>
       <Features />
       <Blog />
-      <Footer/>
-      console.log({showLogin})
-     
+      <Footer />
+      {showLogin && <LoginCard onClose={() => setShowLogin(false)} />}
     </div>
   );
 };

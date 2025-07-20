@@ -1,26 +1,41 @@
 import {useForm} from 'react-hook-form';
+import axios from 'axios';
+
+const BACKEND_API_URL = 'localhost:3000'; // Adjust this to your backend API endpoint
 
 interface LoginCardProps {
   onClose: () => void;
 };
 
-function LoginCard({ onClose }: LoginCardProps) {
-  const { register, handleSubmit } = useForm();
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
 
-  const onSubmit = (data) => {
+function LoginCard({ onClose }: LoginCardProps) {
+  const { register, handleSubmit } = useForm<LoginFormInputs>();
+
+  const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
     // Handle login logic here
     // For example, you can send a request to your backend API
 
-    // axios.post('/api/login', data)
-    //   .then(response => {
-    //     console.log('Login successful:', response.data);
-    //     onClose(); // Close the modal on success
-    //   })
-    //   .catch(error => {
-    //     console.error('Login failed:', error);
-    //     // Handle error (e.g., show an error message)
-    //   });
+    axios.post(`{BACKEND_API_URL}/api/login`, data)
+      .then(response => {
+        console.log('Login successful:', response.data);
+        // Optionally, you can redirect the user or show a success message
+        window.location.href = '/dashboard'; // Example redirection  
+
+        // For example, you can use `window.location.href = '/dashboard';`
+        // or update the state to show a success message
+        // onSuccess(); // Call a success handler if neededd
+        onClose(); // Close the modal on success
+      })
+      .catch(error => {
+        console.error('Login failed:', error);
+        // Handle error (e.g., show an error message)
+      });
+    
     onClose(); // Close the modal after submission
   };
 
