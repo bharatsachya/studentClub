@@ -1,7 +1,7 @@
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
-const BACKEND_API_URL = 'localhost:3000'; // Adjust this to your backend API endpoint
+const BACKEND_API_URL = import.meta.env.BACKEND_URL; // Adjust this to your backend API endpoint
 
 interface LoginCardProps {
   onClose: () => void;
@@ -20,7 +20,7 @@ function LoginCard({ onClose }: LoginCardProps) {
     // Handle login logic here
     // For example, you can send a request to your backend API
 
-    axios.post(`{BACKEND_API_URL}/api/login`, data)
+    axios.post(`http://${BACKEND_API_URL}/api/login`, data)
       .then(response => {
         console.log('Login successful:', response.data);
         // Optionally, you can redirect the user or show a success message
