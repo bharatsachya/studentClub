@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { clubs} from "./login.tsx";
 export const Landing = () => {
   const [name, setName] = useState<string>("");
   const [localAudioTrack, setLocalAudioTrack] =
@@ -51,13 +50,7 @@ export const Landing = () => {
           >
             Ask
           </button>
-         
         </div>
-        <select name="clubs"  id="clubs" className="text-black mt-3" required>
-            {clubs.map((club) => (
-              <option value={club}>{club}</option>
-            ))}
-          </select>
       </div>
     );
   }

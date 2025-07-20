@@ -1,86 +1,47 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-function Navbar() {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
-
+function Navbar({onJoinClick}: {onJoinClick: () => void}) {
   return (
-    <>
-      {/* Navbar Section */}
-    <div className="flex items-center justify-between p-2 bg-white shadow-md fixed ">
-      <div className="text-purple-900 font-bold md:text-2xl sm:text-md">StudentConnect</div>
-    <div className="flex items-center justify-end mx-2">
-        <button
-          onClick={handleClick}
-          className="hover:bg-emerald-200 p-0.5 rounded-xl"
-        >
-         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1zm12-1a2 2 0 012 2v12a2 2 0 01-2 2H2a2 2 0 01-2-2V2a2 2 0 012-2h12z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M5 15V1H4v14h1zm8-11.5a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm0 3a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5z" clip-rule="evenodd"></path></svg>
-        </button>
-      </div>
-
-    </div>
-      {/* Sidebar Section */}
-      <div
-        className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 transform ${
-          isClicked ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
-      >
-        <button
-          onClick={handleClick}
-          className="absolute top-4 left-4  text-gray-700 hover:bg-gray-200 rounded-full"
-        >
-          ✖
-        </button>
-        <br />
-        <div className="p-5">
-          <ul className="space-y-4">
-            <li>
-              <a href="#guide">User Guide</a>
-            </li>
-            <li>
-              <a href="#about" className="text-gray-700 hover:text-emerald-500">
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                className="text-gray-700 hover:text-emerald-500"
-              >
-                Contact
-              </a>
-            </li>
-            <li>
-              <a
-                href="#services"
-                className="text-gray-700 hover:text-emerald-500"
-              >
-                club registration
-              </a>
-            </li>
-            <li>
-              <a
-                href="#services"
-                className="text-gray-700 hover:text-emerald-500"
-              >
-                Club members Login
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                className="text-gray-700 hover:text-emerald-500"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
+    <div className="relative">
+      {/* Floating Navbar */}
+      <nav className="absolute top-4 left-1/2 transform -translate-x-1/2 w-[90%] md:w-4/5 bg-white/70 backdrop-blur-md shadow-xl rounded-2xl px-6 py-4 flex justify-between items-center z-10">
+        {/* Brand */}
+        <div className="text-violet-700 font-extrabold text-xl md:text-2xl tracking-tight">
+          <Link to="/">StudentConnect</Link>
         </div>
-      </div>
-    </>
+
+        {/* Navigation Links */}
+        <ul className="hidden md:flex space-x-6 text-violet-800 font-medium text-sm">
+          <li>
+            <Link to="/about" className="hover:text-violet-500 transition">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact" className="hover:text-violet-500 transition">
+              Contact
+            </Link>
+          </li>
+          <li>
+            <Link to="/register" className="hover:text-violet-500 transition">
+              Club Registration
+            </Link>
+          </li>
+          <li>
+            <Link to="/login" className="hover:text-violet-500 transition">
+              Members Login
+            </Link>
+          </li>
+        </ul>
+
+        {/* Join Button */}
+        <div>
+            <button className="bg-violet-700 text-white px-4 py-2 rounded-xl hover:bg-violet-600 transition text-sm font-semibold" onClick={onJoinClick}>
+              Join Now
+            </button>
+        </div>
+      </nav>
+    </div>
   );
 }
 
