@@ -5,7 +5,7 @@ function TabbedContent() {
 
   const tabClass = (tab: string) =>
     `px-4 py-2 rounded-full transition font-medium ${
-      activeTab === tab
+      activeTab === tabkam
         ? "bg-violet-700 text-white"
         : "bg-gray-100 text-violet-700 hover:bg-violet-100"
     }`;
