@@ -4,7 +4,7 @@ import { User } from "../models/user.model";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { Request } from "express";
-dotenv.config();
+dotenv.config();    
 
 interface JwtPayload {
   _id: string;
