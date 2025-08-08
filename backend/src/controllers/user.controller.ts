@@ -6,6 +6,7 @@ import { ApiError } from "../utils/ApiHandler";
 import { asyncHandler } from "../utils/asynchandler";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import dotenv from "dotenv";
+import { Interface } from "readline";
 dotenv.config();
 declare global {
   namespace Express {
@@ -14,6 +15,21 @@ declare global {
     }
   }
 }
+
+interface UserInterface {
+  _id: string;
+  email: string;
+  username: string;
+  password: string;
+  fullName: string;
+  avatar: string;
+  coverImage?: string;
+  refreshToken?: string;
+  generateAccessToken(): string;
+  generateRefreshToken(): string;
+  isPasswordCorrect(password: string): Promise<boolean>;
+}
+
 
 // Generate Access and Refresh Token
 const generateAccessAndRefreshToken = async (userId: string): Promise<{ accessToken: string; refreshToken: string }> => {
@@ -50,17 +66,26 @@ const registerUser = asyncHandler(
     }
 
     // Check avatar and cover image
-    const avatarLocalPath = req.files?.avatar[0]?.path;
+    let avatarLocalPath: any= "";
+     if (
+      req.files &&
+      typeof req.files === "object" &&
+      "avatar" in req.files &&
+      Array.isArray((req.files as { [key: string]: Express.Multer.File[] }).avatar)
+    ) {
+      avatarLocalPath = (req.files as { [key: string]: Express.Multer.File[] }).avatar[0].path;
+    }
+
     if (!avatarLocalPath) {
       throw new ApiError(400, "Avatar is required");
     }
 
-    let coverImageLocalPath;
-    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    let coverImageLocalPath: string = "";
+    if (req.files && typeof req.files === "object" && "coverImage" in req.files && Array.isArray(req.files as {[key: string]: Express.Multer.File[]}) && req.files.coverImage.length > 0) {
       coverImageLocalPath = req.files.coverImage[0].path;
     }
 
-    // Upload to Cloudinary
+    // Upload to Cloudinary 
     const avatar = await uploadOnCloudinary(avatarLocalPath);
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
@@ -79,12 +104,15 @@ const registerUser = asyncHandler(
     });
 
     // Remove password and refreshToken from response
-    const userCreated = await User.findById(user._id).select("-password -refreshToken");
+    const userCrt: Object | null= await User.findById(user._id).select("-password -refreshToken");
+    if (!userCrt) {
+      throw new ApiError(500, "User creation failed");
+    }
+    const userCreated: string | null = userCrt ? "User created successfully" : null;
     if (!userCreated) {
       throw new ApiError(500, "User creation failed");
     }
-
-    return res.status(201).json(new ApiResponse(200, "User created successfully", userCreated));
+    return res.status(201).json(new ApiResponse(200, userCreated));
   }
 );
 
@@ -99,7 +127,7 @@ const loginUser = asyncHandler(
     }
 
     // Find the user
-    const user: UserInterface = await User.findOne({ $or: [{ username }, { email }] });
+    const user: UserInterface | null = await User.findOne({ $or: [{ username }, { email }] });
     if (!user) {
       throw new ApiError(404, "User not found");
     }
@@ -174,7 +202,15 @@ const refreshAcessToken = asyncHandler(
         throw new ApiError(500, "REFRESH_TOKEN_SECRET is not set in environment variables");
       }
       const decodedToken = await jwt.verify(incomingRefreshToken, refreshTokenSecret);
-      const user = await User.findById(decodedToken?._id);
+      const userId =
+        typeof decodedToken === "object" && "_id" in decodedToken
+          ? (decodedToken as { _id: string })._id
+          : undefined;
+      if (!userId) {
+        throw new ApiError(401, "Invalid token payload");
+      }
+      const user: UserInterface | null= await User.findById(userId);
+
       if (!user) {
         throw new ApiError(401, "User is invalid");
       }
