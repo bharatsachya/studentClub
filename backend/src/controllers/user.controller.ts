@@ -6,8 +6,9 @@ import { ApiError } from "../utils/ApiHandler";
 import { asyncHandler } from "../utils/asynchandler";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import dotenv from "dotenv";
-import { Interface } from "readline";
+
 dotenv.config();
+
 declare global {
   namespace Express {
     interface Request {
@@ -86,6 +87,7 @@ const registerUser = asyncHandler(
     }
 
     // Upload to Cloudinary 
+    console.log(avatarLocalPath)
     const avatar = await uploadOnCloudinary(avatarLocalPath);
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
@@ -123,12 +125,13 @@ const loginUser = asyncHandler(
 
     // Validate username or email
     if (!(username || email)) {
-      throw new ApiError(400, "Username or email is required");
+      throw new ApiError(400, "username or email is required");
     }
 
     // Find the user
     const user: UserInterface | null = await User.findOne({ $or: [{ username }, { email }] });
     if (!user) {
+      res.redirect("/signup")
       throw new ApiError(404, "User not found");
     }
 

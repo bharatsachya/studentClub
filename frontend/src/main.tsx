@@ -6,17 +6,19 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import {Landing} from './pages/landing'
 import Login from './pages/login'
 import Verify from './components/verify'
+import Register from './pages/register'
+import Dashboard from './pages/dashboard'
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
-       <Route path='/landing' element={<Landing/>} />
-       {/* <Route path='/room' element={<Room/>} /> */}
-       <Route path='/' element={<Login/>}/>
-       <Route path='/verify' element={<Verify/>}/>
-
-    </Route>
+    <>
+      <Route path='/' element={<Login/>}/>
+      <Route path='/register' element={<Register/>}/>
+      <Route path='/verify' element={<Verify/>}/>
+      <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/landing' element={<Landing/>} />
+    </>
   ) 
 )
 

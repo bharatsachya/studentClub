@@ -18,6 +18,12 @@ router.post("/register",
   registerUser
 );
 
+
+
+router.route("/hello").get((req, res)=>{
+  res.send("Hello from user route");
+})
+
 router.route('/login').post(loginUser)
 
 router.route('/logout').post(verifyJWT,logoutUser)
