@@ -157,7 +157,11 @@ const Dashboard: React.FC = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg text-left transition-colors ${\n                      activeTab === item.id\n                        ? 'bg-violet-100 text-violet-700 font-medium'\n                        : 'text-gray-600 hover:bg-gray-100'\n                    }`}
+                    className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg text-left transition-colors ${
+                      activeTab === item.id
+                        ? 'bg-violet-100 text-violet-700 font-medium'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
                   >
                     <span>{item.icon}</span>
                     <span>{item.name}</span>
@@ -185,7 +189,7 @@ const Dashboard: React.FC = () => {
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       className="bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg p-6 text-white cursor-pointer"
-                      onClick={() => navigate('/landing')}
+                      onClick={() => navigate('/video-call')}
                     >
                       <div className="flex items-center space-x-3">
                         <div className="text-3xl">🎥</div>
@@ -222,7 +226,7 @@ const Dashboard: React.FC = () => {
                           <p className="text-sm opacity-90">Share your thoughts</p>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Recent activity */}
@@ -293,7 +297,7 @@ const Dashboard: React.FC = () => {
                     <h4 className="text-xl font-semibold text-gray-900 mb-2">Ready to connect?</h4>
                     <p className="text-gray-600 mb-6">Start a video chat with fellow students</p>
                     <button
-                      onClick={() => navigate('/landing')}
+                      onClick={() => navigate('/video-call')}
                       className="bg-violet-600 text-white px-8 py-3 rounded-lg hover:bg-violet-700 transition-colors text-lg"
                     >
                       Start Video Chat

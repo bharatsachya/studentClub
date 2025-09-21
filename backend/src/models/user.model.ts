@@ -4,6 +4,19 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// College verification interface
+interface CollegeVerification {
+  studentId: string;
+  university: string;
+  graduationYear: number;
+  collegeIdImage: string;
+  verificationStatus: 'pending' | 'approved' | 'rejected';
+  submittedAt: Date;
+  reviewedBy?: mongoose.Types.ObjectId;
+  reviewedAt?: Date;
+  reviewNotes?: string;
+}
+
 // 1. Define the interface for the user document
 interface UserDocument extends Document {
   username: string;
@@ -14,6 +27,10 @@ interface UserDocument extends Document {
   refreshToken: string | null;
   fullName: string;
   watchHistory: mongoose.Types.ObjectId[];
+  collegeVerification?: CollegeVerification;
+  googleId?: string;
+  isEmailVerified?: boolean;
+  authProvider?: 'local' | 'google';
 
   // Instance methods
   isPasswordCorrect(password: string): Promise<boolean>;
@@ -69,6 +86,56 @@ const userSchema = new Schema<UserDocument>({
     type: Schema.Types.ObjectId,
     ref: "Video"
   }],
+  collegeVerification: {
+    studentId: {
+      type: String,
+      trim: true
+    },
+    university: {
+      type: String,
+      trim: true
+    },
+    graduationYear: {
+      type: Number,
+      min: 1900,
+      max: new Date().getFullYear() + 10
+    },
+    collegeIdImage: {
+      type: String
+    },
+    verificationStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
+    submittedAt: {
+      type: Date,
+      default: Date.now
+    },
+    reviewedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
+    reviewedAt: Date,
+    reviewNotes: {
+      type: String,
+      trim: true
+    }
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
+  }
 }, { timestamps: true });
 
 // 4. Add instance methods

@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import GoogleAuth from './GoogleAuth';
 
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL || 'localhost:3000';
 
@@ -42,7 +43,18 @@ function LoginCard({ onClose }: LoginCardProps) {
       
     } catch (error: any) {
       console.error('Login failed:', error);
-      setError(error.response?.data?.message || 'Login failed. Please try again.');
+      console.error('Error response:', error.response);
+      
+      let errorMessage = 'Login failed. Please try again.';
+      if (error.response?.status === 404) {
+        errorMessage = 'User not found. Please check your email or register first.';
+      } else if (error.response?.status === 400) {
+        errorMessage = error.response?.data?.message || 'Invalid credentials. Please check your password.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -111,6 +123,25 @@ function LoginCard({ onClose }: LoginCardProps) {
             {isLoading ? 'Signing in...' : 'Join Now'}
           </button>
         </form>
+
+        {/* Divider */}
+        <div className="mt-4 mb-4 flex items-center">
+          <div className="flex-1 border-t border-gray-300"></div>
+          <span className="px-3 text-sm text-gray-500">or</span>
+          <div className="flex-1 border-t border-gray-300"></div>
+        </div>
+
+        {/* Google Sign In */}
+        <GoogleAuth
+          onSuccess={(user) => {
+            console.log('Google login successful:', user);
+            onClose();
+          }}
+          onError={(error) => {
+            setError(error);
+          }}
+          buttonText="Sign in with Google"
+        />
         
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
